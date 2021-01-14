@@ -14,8 +14,6 @@ import javax.swing.JPanel;
 public class View {
 	
 	JFrame view;
-	private int whiteScoreValue;
-	private int blackScoreValue;
 	private String currTurn;
 	private Game game;
 	private String side;
