@@ -28,7 +28,58 @@ public class Controller implements ActionListener {
 	/*  Details what happens when an action is performed on various parts of the chess game
 	 * @param e the event in question
 	 */
+	public void actionPerformed(ActionEvent e) {
 
+		String action_com = e.getActionCommand();
+		if(action_com == "square") {
+			isClicked((Square) e.getSource());  //passes a Object that the even occurred on typecasted to a Square into the isClicked() function
+		}
+		
+		if(action_com == "restart") {
+			boolean restarted = view.promptRestart();
+			if(restarted == true) {
+				game.sendPacket(null, true, false, false, false, false, false, false);
+			}
+		}
+		
+		if(action_com == "forfeit") {
+			if((this.getTurn() == getGame().getConnectable().getColor())) {
+				boolean forfeited = view.promptForfeit();
+				if(forfeited == true) {
+					resetBoard();
+					game.sendPacket(null, false, false, true, false, false, false, false);
+				}
+			}
+		}
+	
+		if(action_com == "undo") {
+			if((this.getTurn() != getGame().getConnectable().getColor())) {  //can only undo during an opponents turn BEFORE they make a move
+				boolean undo = view.promptUndo();
+				if(undo == true) {
+					if(model.undo()) {
+						if(getSelectedSquare() != null) {
+							deselect(selectedSquare);
+						}
+						switchTurns();
+						game.sendPacket(null, false, false, false, true, false, false, false);
+					}
+				}
+			}
+		}
+		if(action_com == "exit") {
+			boolean exit = view.promptExit();
+			if(exit == true) {
+				game.sendPacket(null, false, false, false, false, true, false, false);
+				view.close();
+			}
+		}
+		if(action_com == "custom") {
+			boolean restartedCustom = view.promptRestartCustom();
+			if(restartedCustom == true) {
+				game.sendPacket(null, false, false, false, false, false, true, false);
+			}
+		}
+	}
 	
 	/**
 	 * Resets the Board to the default starting position
@@ -57,7 +108,28 @@ public class Controller implements ActionListener {
 	/** Handles what happens when a Square is clicked
 	 * @param square The square that is clicked
 	 */
+	public void isClicked(Square square) {  
+		if(getSelectedSquare() == null) {
+			if(square.getOccupier() != null) { 		//if there is a piece on the square
+				if(checkProperTurn(square)) {  		//and if the piece clicked is the same color as the owner of the current turn
+					select(square);
+				}
+			}
+		}
+		else if(getSelectedSquare() != null) {
+			if(getSelectedSquare() == square) {
+				deselect(square);
+			}
+			else if(square.isHighlighted()) {
+				game.sendPacket(new Command(selectedSquare.getPosition().getLocation(), square.getPosition().getLocation()), false, false, false, false, false, false, false); //SEND THE PACKET
+				move(selectedSquare.getPosition(), square.getPosition()); 
 
+				if(getSelectedSquare() != null) {
+					deselect(getSelectedSquare());
+				}
+			}
+		}
+	}
 	
 	/** Highlights the selected square and all it's possible legal moves
 	 * @param square the Square to be highlighted
@@ -189,10 +261,5 @@ public class Controller implements ActionListener {
 
 	public void setGame(Game game) {
 		this.game = game;
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-
 	}
 }

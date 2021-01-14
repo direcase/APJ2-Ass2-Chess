@@ -1,4 +1,4 @@
-package com.example.APJ2_Ass2_Chess.models;
+package com.example.APJ2_Ass2_Chess;
 
 import javax.swing.*;
 import java.awt.*;
