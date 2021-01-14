@@ -9,22 +9,16 @@ public class ChessBoard {
     JPanel squares[][] = new JPanel[8][8];
 
     public void board2() {
-        frame = new JFrame("Simplified Chess");
+        frame = new JFrame("Chess on Java by Dariya and Talgat");
         frame.setSize(500, 500);
         frame.setLayout(new GridLayout(8, 8));
 
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 squares[i][j] = new JPanel();
-
-                if ((i + j) % 2 == 0) {
-                    squares[i][j].setBackground(Color.black);
-                } else {
-                    squares[i][j].setBackground(Color.white);
-                }
-                frame.add(squares[i][j]);
             }
         }
+
 
         squares[0][0].add(new JLabel(new ImageIcon("imges/ladya.jpg")));
         squares[0][1].add(new JLabel(new ImageIcon("imges/kon'.jpg")));
@@ -41,6 +35,17 @@ public class ChessBoard {
         for (int i = 0; i < 8; i++) {
             squares[1][i].add(new JLabel(new ImageIcon("imges/peshka.jpg")));
             squares[6][i].add(new JLabel(new ImageIcon("imges/peshka_b.jpg")));
+        }
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+
+                if ((i + j) % 2 == 0) {
+                    squares[i][j].setBackground(Color.black);
+                } else {
+                    squares[i][j].setBackground(Color.white);
+                }
+                frame.add(squares[i][j]);
+            }
         }
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
