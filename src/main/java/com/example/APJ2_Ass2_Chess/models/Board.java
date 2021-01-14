@@ -1,7 +1,5 @@
 package com.example.APJ2_Ass2_Chess.models;
 
-import com.example.APJ2_Ass2_Chess.models.figures.*;
-
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Point;

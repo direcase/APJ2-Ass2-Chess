@@ -1,7 +1,4 @@
-package com.example.APJ2_Ass2_Chess.models.figures;
-
-import com.example.APJ2_Ass2_Chess.models.Piece;
-import com.example.APJ2_Ass2_Chess.models.Square;
+package com.example.APJ2_Ass2_Chess.models;
 
 import java.awt.Point;
 import java.util.ArrayList;

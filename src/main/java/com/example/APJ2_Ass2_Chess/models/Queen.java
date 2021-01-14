@@ -1,7 +1,4 @@
-package com.example.APJ2_Ass2_Chess.models.figures;
-
-import com.example.APJ2_Ass2_Chess.models.Piece;
-import com.example.APJ2_Ass2_Chess.models.Square;
+package com.example.APJ2_Ass2_Chess.models;
 
 import java.awt.Point;
 import java.util.ArrayList;
@@ -10,24 +7,23 @@ import java.util.List;
 import javax.swing.ImageIcon;
 
 
-public final class Rook extends Piece {
+public final class Queen extends Piece {
 	
-	public Rook(Square _occupying, String _color) {
+	public Queen(Square _occupying, String _color) {
 		super(_occupying, _color);
 		
 		if(getColor() == "white") {
-			icon = new ImageIcon("images/whiterook.png");
+			this.icon = new ImageIcon("images/whitequeen.png");
 		}
 		else if(getColor() == "black") {
-			icon = new ImageIcon("images/blackrook.png");
+			this.icon = new ImageIcon("images/blackqueen.png");
 		}
 	}
-	
+
 	public List<Point> getPossibleMoves() {
 		List<Point> moves = new ArrayList<Point>();
 		
 		Point moveIterator = new Point(occupying.getPosition());
-		
 		int startx = moveIterator.x;
 		int starty = moveIterator.y;
 		
@@ -35,6 +31,10 @@ public final class Rook extends Piece {
 		getHorizLeft(moves, moveIterator, startx, starty);
 		getVertUp(moves, moveIterator, startx, starty);
 		getVertDown(moves, moveIterator, startx, starty);
+		getDiagUpRight(moves, moveIterator, startx, starty);
+		getDiagDownRight(moves, moveIterator, startx, starty);
+		getDiagUpLeft(moves, moveIterator, startx, starty);
+		getDiagDownLeft(moves, moveIterator, startx, starty);
 		
 		moveIterator.x = startx;
 		moveIterator.y = starty;
