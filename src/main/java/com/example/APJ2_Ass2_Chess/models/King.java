@@ -7,6 +7,7 @@ import java.util.List;
 import javax.swing.ImageIcon;
 
 
+
 public final class King extends Piece {
 
 		public King(Square _occupying, String _color) {

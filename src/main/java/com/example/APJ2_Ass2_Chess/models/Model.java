@@ -1,4 +1,6 @@
+
 package com.example.APJ2_Ass2_Chess.models;
+
 
 
 import java.awt.Point;

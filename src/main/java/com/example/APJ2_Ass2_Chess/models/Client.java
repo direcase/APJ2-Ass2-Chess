@@ -21,9 +21,12 @@ public class Client extends Connectable {
     void run()
     {
         try{
+
+            chat_client client1=new chat_client("127.0.0.1");
+            client1.startRunning();
             //1. creating a socket to connect to the server
             requestSocket = new Socket("localhost", 2004);
-            System.out.println("Connected to localhost in port 2002");
+            System.out.println("Connected to localhost in port 2004");
             //2. get Input and Output streams
             out = new ObjectOutputStream(requestSocket.getOutputStream());
             out.flush();
@@ -67,6 +70,7 @@ public class Client extends Connectable {
     
     public static void main(String args[])
     {
+
         Client client = new Client();
         client.run();
     }

@@ -21,6 +21,7 @@ public class Controller implements ActionListener {
 		this.setTurn("white");
 		this.setSelectedSquare(null);
 		model.addActionListeners(this);
+		view.addActionListeners(this);
 	}
 	
 	
@@ -33,7 +34,45 @@ public class Controller implements ActionListener {
 		if(action_com == "square") {
 			isClicked((Square) e.getSource());  //passes a Object that the even occurred on typecasted to a Square into the isClicked() function
 		}
-
+		
+		if(action_com == "restart") {
+			boolean restarted = view.promptRestart();
+			if(restarted == true) {
+				game.sendPacket(null, true, false, false, false, false, false, false);
+			}
+		}
+		
+		if(action_com == "forfeit") {
+			if((this.getTurn() == getGame().getConnectable().getColor())) {
+				boolean forfeited = view.promptForfeit();
+				if(forfeited == true) {
+					resetBoard();
+					game.sendPacket(null, false, false, true, false, false, false, false);
+				}
+			}
+		}
+	
+		if(action_com == "undo") {
+			if((this.getTurn() != getGame().getConnectable().getColor())) {  //can only undo during an opponents turn BEFORE they make a move
+				boolean undo = view.promptUndo();
+				if(undo == true) {
+					if(model.undo()) {
+						if(getSelectedSquare() != null) {
+							deselect(selectedSquare);
+						}
+						switchTurns();
+						game.sendPacket(null, false, false, false, true, false, false, false);
+					}
+				}
+			}
+		}
+		if(action_com == "exit") {
+			boolean exit = view.promptExit();
+			if(exit == true) {
+				game.sendPacket(null, false, false, false, false, true, false, false);
+				view.close();
+			}
+		}
 		if(action_com == "custom") {
 			boolean restartedCustom = view.promptRestartCustom();
 			if(restartedCustom == true) {
@@ -72,8 +111,9 @@ public class Controller implements ActionListener {
 	public void isClicked(Square square) {  
 		if(getSelectedSquare() == null) {
 			if(square.getOccupier() != null) { 		//if there is a piece on the square
-				 		//and if the piece clicked is the same color as the owner of the current turn
-				select(square);
+				if(checkProperTurn(square)) {  		//and if the piece clicked is the same color as the owner of the current turn
+					select(square);
+				}
 			}
 		}
 		else if(getSelectedSquare() != null) {
@@ -138,7 +178,7 @@ public class Controller implements ActionListener {
 	 */
 	public void testGameStatus(String turn) { 		 //tests for check, checkmate, stalemate, etc and notifies user with popups
 		if(model.getBoard().isCheckmate(turn)) {		//if the turn is in check
-			//send to View pop up a "checkmated" notification add one point to the winning side's score
+			view.notifyCheckmate(turn);  					//send to View pop up a "checkmated" notification add one point to the winning side's score
 			resetBoard();
 			view.resetBoardPanel(getModel().getBoard());
 			return;
@@ -171,7 +211,16 @@ public class Controller implements ActionListener {
 		}
 	}
 	
-
+	/** Tests if the Piece on the Square is the same color as the current turn, which allows it to be moved
+	 * @param test The Square that contains the piece to be tested
+	 * @return whether the piece is the same color as the current turn
+	 */
+	public boolean checkProperTurn(Square test) {
+		if((test.getOccupier().getColor() == this.getTurn()) && (this.getTurn() == getGame().getConnectable().getColor())) {
+			return true;
+		}
+		return false;
+	}
 	
 	public Model getModel() {
 		return model;

@@ -7,6 +7,8 @@ import java.util.List;
 import javax.swing.ImageIcon;
 
 
+
+
 public final class Queen extends Piece {
 	
 	public Queen(Square _occupying, String _color) {

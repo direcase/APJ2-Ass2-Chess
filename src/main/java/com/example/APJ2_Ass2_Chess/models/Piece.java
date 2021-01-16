@@ -7,6 +7,8 @@ import java.util.List;
 import javax.swing.ImageIcon;
 
 
+
+
 public abstract class Piece {
 		protected String color;
 		protected Square occupying;
