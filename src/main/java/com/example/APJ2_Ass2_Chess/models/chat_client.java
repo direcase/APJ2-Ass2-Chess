@@ -4,16 +4,11 @@ package com.example.APJ2_Ass2_Chess.models;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-
-import java.io.EOFException;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.net.InetAddress;
-import java.net.Socket;
 import javax.swing.JOptionPane;
 
-public class chat_client extends javax.swing.JFrame {
+public class chat_client extends javax.swing.JFrame{
 
     private ObjectOutputStream output;
     private ObjectInputStream input;

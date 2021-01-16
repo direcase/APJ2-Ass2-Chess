@@ -22,8 +22,6 @@ public class Client extends Connectable {
     {
         try{
 
-            chat_client client1=new chat_client("127.0.0.1");
-            client1.startRunning();
             //1. creating a socket to connect to the server
             requestSocket = new Socket("localhost", 2004);
             System.out.println("Connected to localhost in port 2004");
@@ -57,6 +55,8 @@ public class Client extends Connectable {
                 ioException.printStackTrace();
             }
         }
+        chat_client client1=new chat_client("127.0.0.1");
+        client1.startRunning();
     }
 
 	/** Closes the connections
@@ -73,5 +73,6 @@ public class Client extends Connectable {
 
         Client client = new Client();
         client.run();
+
     }
 }

@@ -1,8 +1,8 @@
 package com.example.APJ2_Ass2_Chess.models;
 
+
 import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
-
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -11,8 +11,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-public class View {
-	
+public class View extends Thread {
+
 	JFrame view;
 	private int whiteScoreValue;
 	private int blackScoreValue;
@@ -32,7 +32,7 @@ public class View {
 		setBlackScoreValue(0);
 		boardPanel = board;
 		setSide(color);
-		createAndShowGUI();
+		run();
 		setGame(game);
 		
 	}
@@ -40,7 +40,8 @@ public class View {
 	/**
 	 *  Creates and shows the GUI
 	 */
-	public void createAndShowGUI() {
+	@Override
+	public void run() {
 		view = new JFrame("Chess");
 		view.getContentPane().add(createPanels());
 		view.setJMenuBar(createMenu());
