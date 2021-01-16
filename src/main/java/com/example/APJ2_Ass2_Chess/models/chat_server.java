@@ -176,8 +176,7 @@ public class chat_server extends javax.swing.JFrame {
             String encryptedmsg = encyrDecry.encrypt(message, secretKey);
             
             output.writeObject("                                                             (enc):" + encryptedmsg);
-            EncryDecry encyrDecry = new EncryDecry();
-            message = encyrDecry.decrypt(encryptedmsg, secretKey);
+           message = encyrDecry.decrypt(encryptedmsg, secretKey);
             output.writeObject("                                                             Server(decrypt) - " + message);
             output.flush();
         }

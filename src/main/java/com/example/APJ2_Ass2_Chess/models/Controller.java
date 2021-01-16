@@ -21,7 +21,6 @@ public class Controller implements ActionListener {
 		this.setTurn("white");
 		this.setSelectedSquare(null);
 		model.addActionListeners(this);
-		view.addActionListeners(this);
 	}
 	
 	
@@ -42,16 +41,7 @@ public class Controller implements ActionListener {
 			}
 		}
 		
-		if(action_com == "forfeit") {
-			if((this.getTurn() == getGame().getConnectable().getColor())) {
-				boolean forfeited = view.promptForfeit();
-				if(forfeited == true) {
-					resetBoard();
-					game.sendPacket(null, false, false, true, false, false, false, false);
-				}
-			}
-		}
-	
+
 		if(action_com == "undo") {
 			if((this.getTurn() != getGame().getConnectable().getColor())) {  //can only undo during an opponents turn BEFORE they make a move
 				boolean undo = view.promptUndo();
@@ -178,7 +168,6 @@ public class Controller implements ActionListener {
 	 */
 	public void testGameStatus(String turn) { 		 //tests for check, checkmate, stalemate, etc and notifies user with popups
 		if(model.getBoard().isCheckmate(turn)) {		//if the turn is in check
-			view.notifyCheckmate(turn);  					//send to View pop up a "checkmated" notification add one point to the winning side's score
 			resetBoard();
 			view.resetBoardPanel(getModel().getBoard());
 			return;
