@@ -31,22 +31,16 @@ public class Chat  extends JPanel {// адрес сервера
             return this.clientName;
         }
 
-    private BoxLayout layout;
-    private JTextField input;
-   private JTextField messages;
     public Chat() {
-        layout = new BoxLayout(this, BoxLayout.Y_AXIS);
-        setLayout(layout);
         //Create message list
         try {
             // подключаемся к серверу
-            clientSocket = new Socket(SERVER_HOST, SERVER_PORT);
             inMessage = new Scanner(clientSocket.getInputStream());
             outMessage = new PrintWriter(clientSocket.getOutputStream());
         } catch (IOException e) {
             e.printStackTrace();
         }
-        setBounds(600, 300, 600, 500);
+        setBounds(200, 100, 200, 100);
         jtaTextAreaMessage = new JTextArea();
         jtaTextAreaMessage.setEditable(false);
         jtaTextAreaMessage.setLineWrap(true);
@@ -54,12 +48,18 @@ public class Chat  extends JPanel {// адрес сервера
         add(jsp, BorderLayout.CENTER);
         // label, который будет отражать количество клиентов в чате
         JPanel bottomPanel = new JPanel(new BorderLayout());
+
         add(bottomPanel, BorderLayout.SOUTH);
         JButton jbSendMessage = new JButton("Отправить");
-        bottomPanel.add(jbSendMessage, BorderLayout.EAST);
+        bottomPanel.add(jbSendMessage, BorderLayout.AFTER_LAST_LINE);
+
         jtfMessage = new JTextField("Введите ваше сообщение: ");
         bottomPanel.add(jtfMessage, BorderLayout.CENTER);
         // обработчик события нажатия кнопки отправки сообщения
+
+        jsp.setPreferredSize(new Dimension(300,200));
+        jtfMessage.setPreferredSize(new Dimension(300,100));
+        jtaTextAreaMessage.setPreferredSize(new Dimension(300,100));
         jbSendMessage.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
