@@ -24,10 +24,8 @@ public class Server extends Connectable {
 	public void run() {
 		 try{
 	         //1. creating a server socket
-
-			 chat_server myServer=new chat_server();
-			 myServer.startRunning();
 	         serverSocket = new ServerSocket(2004, 10);
+
 	         //2. Wait for connection
 	         System.out.println("Waiting for connection");
 	         connection = serverSocket.accept();

@@ -1,7 +1,6 @@
 
 package com.example.APJ2_Ass2_Chess.models;
 
-
 public class Game{
 	private Model model;
 	private View view;
@@ -10,7 +9,7 @@ public class Game{
 	
 	public Game() {
 		model = new Model();
-		view = new View(model.getBoard(), this, "null");
+		view = new View(model.getBoard(), this, "null"  ,model.getChat());
 		setController(new Controller(model, view, this));
 	}
 	
@@ -18,10 +17,10 @@ public class Game{
 		model = new Model();
 		setConnectable(connectable);
 		if(connectable.getClass() == Server.class) {
-			view = new View(model.getBoard(), this, "white");
+			view = new View(model.getBoard(), this, "white",model.getChat());
 		}
 		if(connectable.getClass() == Client.class) {
-			view = new View(model.getBoard(), this, "black");
+			view = new View(model.getBoard(), this, "black",model.getChat());
 		}
 		setController(new Controller(model, view, this));
 		
@@ -60,16 +59,7 @@ public class Game{
 				controller.resetBoard();
 			}
 		}
-		if(packet.isForfeit() == true) {
-			//forfeit
-			if(view.getCurrTurn() == "white") {
-				view.incrementBlackScore();
-			}
-			if(view.getCurrTurn() == "black") {
-				view.incrementWhiteScore();
-			}
-			getController().resetBoard();
-		}
+
 		if(packet.isUndo() == true) {
 			//call undo
 			model.undo();

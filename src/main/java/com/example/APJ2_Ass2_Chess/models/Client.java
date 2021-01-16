@@ -22,10 +22,13 @@ public class Client extends Connectable {
     {
         try{
 
-            chat_client client1=new chat_client("127.0.0.1");
-            client1.startRunning();
-            //1. creating a socket to connect to the server
-            requestSocket = new Socket("localhost", 2004);
+
+
+            requestSocket = new Socket("localhost", 2004);            //1. creating a socket to connect to the server
+
+//            chat_client client1=new chat_client("127.0.0.1");
+//            client1.startRunning();
+
             System.out.println("Connected to localhost in port 2004");
             //2. get Input and Output streams
             out = new ObjectOutputStream(requestSocket.getOutputStream());

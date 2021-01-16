@@ -12,6 +12,7 @@ public class Model {
 	
 	private Board board;
 	private int whiteScore;
+	private Chat chat;
 	private int blackScore;
 	private Stack<Command> commands;
 	
@@ -20,8 +21,13 @@ public class Model {
 		setBlackScore(0);
 		setBoard(new Board(false));
 		setCommands(new Stack<Command>());
+		setChat(new Chat());
 	}
-	
+
+	private void setChat(Chat chat) {
+		this.chat=chat;
+	}
+
 	public Model(int whiteScore, int blackScore, boolean custom) {
 		setWhiteScore(whiteScore);
 		setBlackScore(blackScore);
@@ -128,5 +134,9 @@ public class Model {
 
 	public void setCommands(Stack<Command> commands) {
 		this.commands = commands;
+	}
+
+	public Chat getChat() {
+		return chat;
 	}
 }
