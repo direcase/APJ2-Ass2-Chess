@@ -34,6 +34,7 @@ public class Chat  extends JPanel {// адрес сервера
     public Chat() {
         //Create message list
         try {
+            clientSocket = new Socket(SERVER_HOST, SERVER_PORT);
             // подключаемся к серверу
             inMessage = new Scanner(clientSocket.getInputStream());
             outMessage = new PrintWriter(clientSocket.getOutputStream());

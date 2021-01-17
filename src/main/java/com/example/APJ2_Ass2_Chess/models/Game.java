@@ -60,29 +60,7 @@ public class Game{
 			}
 		}
 
-		if(packet.isUndo() == true) {
-			//call undo
-			model.undo();
-			controller.switchTurns();
-		}
-		if(packet.isExit() == true) {
-			//call close
-			view.opponentQuit();
-			view.close();
-		}
-		if(packet.isCustomRestart() == true) {
-			if(packet.isCustomRestartConfirm() == true) {
-				//this occurs from the origin of the restart request,  only after the askee sends back an affirmative reply, then restart the game
-				controller.resetCustomBoard();
-				return;
-			}
-			//ask the user if you want to restart
-			boolean restartedCustom = view.promptRestartCustom();
-			if(restartedCustom == true) {
-				sendPacket(null, false, false, false, false, false, true, true);
-				controller.resetCustomBoard();
-			}
-		}
+
 	}
 	
 	public Controller getController() {

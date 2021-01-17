@@ -23,6 +23,7 @@ public abstract class Connectable {
 				out.writeObject(packet);
 				out.flush();
 			}
+			else notify();
 		}
 		catch(IOException ioException) {
 			ioException.printStackTrace();

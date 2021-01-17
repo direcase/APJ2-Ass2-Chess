@@ -1,5 +1,8 @@
 
-package com.example.APJ2_Ass2_Chess.models;
+package com.example.APJ2_Ass2_Chess.models.fig;
+
+import com.example.APJ2_Ass2_Chess.models.Piece;
+import com.example.APJ2_Ass2_Chess.models.Square;
 
 import javax.swing.*;
 import java.awt.Point;

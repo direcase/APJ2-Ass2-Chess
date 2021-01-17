@@ -3,7 +3,7 @@ package com.example.APJ2_Ass2_Chess.models;
 import java.io.Serializable;
 
 
-public class Packet implements Serializable {
+public class Packet extends Thread implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	private Command com;
@@ -36,6 +36,8 @@ public class Packet implements Serializable {
 		this.setCustomRestart(customRestart);
 		this.setCustomRestartConfirm(customRestartConfirm);
 	}
+
+
 
 	public Command getCom() {
 		return com;

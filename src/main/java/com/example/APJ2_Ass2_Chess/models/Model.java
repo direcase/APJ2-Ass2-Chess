@@ -3,6 +3,8 @@ package com.example.APJ2_Ass2_Chess.models;
 
 
 
+import com.example.APJ2_Ass2_Chess.models.fig.Pawn;
+
 import java.awt.Point;
 import java.awt.event.ActionListener;
 import java.util.Stack;

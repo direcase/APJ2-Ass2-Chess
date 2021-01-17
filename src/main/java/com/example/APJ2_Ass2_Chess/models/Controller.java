@@ -27,7 +27,7 @@ public class Controller implements ActionListener {
 	/*  Details what happens when an action is performed on various parts of the chess game
 	 * @param e the event in question
 	 */
-	public void actionPerformed(ActionEvent e) {
+	public synchronized void actionPerformed(ActionEvent e) {
 
 		String action_com = e.getActionCommand();
 		if(action_com == "square") {
@@ -40,6 +40,7 @@ public class Controller implements ActionListener {
 				game.sendPacket(null, true, false, false, false, false, false, false);
 			}
 		}
+
 		
 
 		if(action_com == "undo") {
@@ -61,6 +62,7 @@ public class Controller implements ActionListener {
 			if(exit == true) {
 				game.sendPacket(null, false, false, false, false, true, false, false);
 				view.close();
+
 			}
 		}
 		if(action_com == "custom") {
@@ -86,19 +88,12 @@ public class Controller implements ActionListener {
 	/**
 	 * Resets the board with custom pieces
 	 */
-	public void resetCustomBoard() {
-		this.setModel(new Model(model.getWhiteScore(), model.getBlackScore(), true));
-		this.setTurn("white");
-		view.turnSwitchDisplay("white");
-		this.setSelectedSquare(null);
-		model.addActionListeners(this);
-		view.resetBoardPanel(getModel().getBoard());
-	}
+
 
 	/** Handles what happens when a Square is clicked
 	 * @param square The square that is clicked
 	 */
-	public void isClicked(Square square) {  
+	public synchronized void isClicked(Square square) {
 		if(getSelectedSquare() == null) {
 			if(square.getOccupier() != null) { 		//if there is a piece on the square
 				if(checkProperTurn(square)) {  		//and if the piece clicked is the same color as the owner of the current turn
@@ -124,7 +119,7 @@ public class Controller implements ActionListener {
 	/** Highlights the selected square and all it's possible legal moves
 	 * @param square the Square to be highlighted
 	 */
-	public void select(Square square) {
+	public synchronized void select(Square square) {
 		square.setBackground(Color.green);
 		
 		setSelectedSquare(square);    //set selected square to square
@@ -140,7 +135,7 @@ public class Controller implements ActionListener {
 	/** This function is called when a piece is to be deselected.  Also unhighlightes the entire board
 	 * @param square The Square to unhighlight
 	 */
-	public void deselect(Square square) {
+	public synchronized void deselect(Square square) {
 		square.setBackground(square.getOrigColor());
 		
 		setSelectedSquare(null);					//set selected square to null
@@ -157,7 +152,7 @@ public class Controller implements ActionListener {
 	 * @param from the start point
 	 * @param to the end point
 	 */
-	public void move(Point from, Point to) {
+	public synchronized void move(Point from, Point to) {
 		model.move(from, to); 				//move the piece under legal conditions
 		switchTurns();						//switch the turn color
 		testGameStatus(getTurn());			//test whether the move placed the switched turn color under check, checkmate, or stalemate
@@ -166,7 +161,7 @@ public class Controller implements ActionListener {
 	/** Given a side's color it tests whether that side is in check, stalemated, or checkmated
 	 * @param turn the side's color in question
 	 */
-	public void testGameStatus(String turn) { 		 //tests for check, checkmate, stalemate, etc and notifies user with popups
+	public synchronized void testGameStatus(String turn) { 		 //tests for check, checkmate, stalemate, etc and notifies user with popups
 		if(model.getBoard().isCheckmate(turn)) {		//if the turn is in check
 			resetBoard();
 			view.resetBoardPanel(getModel().getBoard());
@@ -189,7 +184,7 @@ public class Controller implements ActionListener {
 	/**
 	 * Switches the turns, then updates the view
 	 */
-	public void switchTurns() {
+	public synchronized void switchTurns() {
 		if(this.getTurn() == "white") {
 			this.setTurn("black");
 			view.turnSwitchDisplay("black");  //call a function in view to notify which turn it is
@@ -198,16 +193,24 @@ public class Controller implements ActionListener {
 			this.setTurn("white");
 			view.turnSwitchDisplay("white");
 		}
+		else {
+			try {
+				wait();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	/** Tests if the Piece on the Square is the same color as the current turn, which allows it to be moved
 	 * @param test The Square that contains the piece to be tested
 	 * @return whether the piece is the same color as the current turn
 	 */
-	public boolean checkProperTurn(Square test) {
+	public synchronized boolean checkProperTurn(Square test) {
 		if((test.getOccupier().getColor() == this.getTurn()) && (this.getTurn() == getGame().getConnectable().getColor())) {
 			return true;
 		}
+
 		return false;
 	}
 	

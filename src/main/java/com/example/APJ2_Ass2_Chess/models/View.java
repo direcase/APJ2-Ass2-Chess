@@ -181,6 +181,7 @@ mainPanel.setPreferredSize(new Dimension(800,400));
 	void close () {
 		view.setVisible(false);
 		view.dispose();
+		notifyAll();
 	}
 	public String getCurrTurn() {
 		return currTurn;
